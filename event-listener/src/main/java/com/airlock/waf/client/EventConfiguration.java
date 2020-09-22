@@ -1,13 +1,16 @@
 package com.airlock.waf.client;
 
-import ch.ergon.restal.jsonapi.jackson.JsonApiJacksonConfigurator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import io.kubernetes.client.ApiClient;
-import io.kubernetes.client.util.Config;
-import io.kubernetes.client.util.credentials.ClientCertificateAuthentication;
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+import java.io.IOException;
+import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,16 +21,16 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-import java.text.SimpleDateFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+import ch.ergon.restal.jsonapi.jackson.JsonApiJacksonConfigurator;
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.util.Config;
+import io.kubernetes.client.util.credentials.ClientCertificateAuthentication;
+import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 
 @Configuration
 public class EventConfiguration {
@@ -39,10 +42,10 @@ public class EventConfiguration {
     public ApiClient apiClient() throws IOException {
         ApiClient client = Config.defaultClient();
         client.setBasePath(context.kubernetes().apiServer());
-        client.getHttpClient().setReadTimeout(600, SECONDS);
+        client.setReadTimeout(6000);
         client.setVerifyingSsl(false);
-        new ClientCertificateAuthentication(context.kubernetes().clientCertificate(), context.kubernetes().clientKey()).provide(client);
-        io.kubernetes.client.Configuration.setDefaultApiClient(client);
+        new TokenFileAuthentication(context.kubernetes().tokenFilePath()).provide(client);;
+        io.kubernetes.client.openapi.Configuration.setDefaultApiClient(client);
         return client;
     }
 

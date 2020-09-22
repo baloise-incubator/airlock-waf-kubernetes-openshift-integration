@@ -22,9 +22,9 @@ import java.nio.charset.Charset;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class Context {
 
-    private AirlockWAFContext waf;
+    private final AirlockWAFContext waf;
 
-    private KubernetesContext kubernetes;
+    private final KubernetesContext kubernetes;
 
     @Component
     @NoArgsConstructor(onConstructor = @__(@Autowired))
@@ -35,6 +35,9 @@ public class Context {
 
         @Value("${airlock.waf.kubernetes.user.certificate.path}")
         private String clientCertificatePath ;
+
+        @Value("${airlock.waf.kubernetes.token.file.path}")
+        private String tokenFilePath ;
 
         @Value("${airlock.waf.kubernetes.api.server:}")
         private String apiServer;
@@ -59,6 +62,13 @@ public class Context {
             catch (IOException e) {
                 throw new IllegalStateException("Could not get kubernetes api server address", e);
             }
+        }
+        
+        public String tokenFilePath() {
+          if (tokenFilePath != null && tokenFilePath.trim().length() > 0) {
+            return tokenFilePath;
+          }
+          throw new IllegalStateException("Could not find kubernetes token file path");
         }
     }
 
