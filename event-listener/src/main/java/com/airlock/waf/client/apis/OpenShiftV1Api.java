@@ -59,9 +59,8 @@ public class OpenShiftV1Api extends ExtensionsV1beta1Api {
         String localVarContentType = apiClient.selectHeaderContentType(new String[]{"*/*"});
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        Map<String, Object> localVarAuthNamesParams = new HashMap<>();
-        localVarAuthNamesParams.put("BearerToken", null);
-
+        String[] localVarAuthNames = new String[]{"BearerToken"};
+        
         return apiClient.buildCall(
                 "/apis/route.openshift.io/v1/routes",
                 "GET",
@@ -70,8 +69,9 @@ public class OpenShiftV1Api extends ExtensionsV1beta1Api {
                 null,
                 localVarHeaderParams,
                 new HashMap<>(),
-                localVarAuthNamesParams,
-                null,null);
+                new HashMap<>(),
+                localVarAuthNames,
+                null);
     }
 
     public V1RouteList listRouteForAllNamespaces(Integer limit, String pretty, Integer timeoutSeconds, Boolean watch) throws ApiException {
