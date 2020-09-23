@@ -7,7 +7,7 @@
  <parent>
   <groupId>com.airlock.waf.kubernetes</groupId>
   <artifactId>root</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.2.1</version>
  </parent>
 
  <dependencies>
