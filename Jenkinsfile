@@ -64,7 +64,7 @@ pipeline {
                     currentBuild.description = GIT_COMMIT
                     pomInfo = readMavenPom file: 'pom.xml'
                 }
-                containerBuild registry: 'quay.balgroupit.com', repository: 'devopsselfservice/airlock-waf-eventlistener', tags: [GIT_COMMIT, pomInfo.version], dockerFileName: 'src/main/resources/Dockerfile.eventlistener', path: '.'
+                containerBuild registry: 'quay.balgroupit.com', repository: 'devopsselfservice/airlock-waf-eventlistener', tags: [GIT_COMMIT, pomInfo.version], dockerFileName: 'event-listener/src/main/resources/Dockerfile.eventlistener', path: '.'
 
             }
 
