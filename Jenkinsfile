@@ -69,18 +69,17 @@ pipeline {
             }
 
         }
-
-        post {
-            success {
-                notifyBitBucket state: "SUCCESSFUL"
-            }
-            fixed {
-                mailTo status: "SUCCESS", actuator: true, recipients: [], logExtract: true
-            }
-            failure {
-                notifyBitBucket state: "FAILED"
-                mailTo status: "FAILURE", actuator: true, recipients: [], logExtract: true
-            }
-        }
     }
+    post {
+                success {
+                    notifyBitBucket state: "SUCCESSFUL"
+                }
+                fixed {
+                    mailTo status: "SUCCESS", actuator: true, recipients: [], logExtract: true
+                }
+                failure {
+                    notifyBitBucket state: "FAILED"
+                    mailTo status: "FAILURE", actuator: true, recipients: [], logExtract: true
+                }
+            }
 }
