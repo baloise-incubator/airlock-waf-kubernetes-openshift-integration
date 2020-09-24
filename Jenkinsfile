@@ -61,7 +61,7 @@ pipeline {
         stage("Build Container") {
             steps{
                 script {
-                    currentBuild.description += " - ${GIT_COMMIT"
+                    currentBuild.description += " - ${GIT_COMMIT}"
                     pomInfo = readMavenPom file: 'pom.xml'
                 }
                 containerBuild registry: 'quay.balgroupit.com', 
