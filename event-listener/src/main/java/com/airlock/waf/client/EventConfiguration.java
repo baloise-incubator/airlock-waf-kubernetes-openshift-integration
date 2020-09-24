@@ -29,7 +29,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import ch.ergon.restal.jsonapi.jackson.JsonApiJacksonConfigurator;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.util.Config;
-import io.kubernetes.client.util.credentials.ClientCertificateAuthentication;
 import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 
 @Configuration
