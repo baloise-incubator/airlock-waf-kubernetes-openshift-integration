@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Instant;
 
 @Component
 @Getter
@@ -100,13 +103,11 @@ public class Context {
         private String externalLogicalName;
 
         public String token() {
-            try {
-                URL resource = Resources.getResource(tokenFile);
-                return Resources.toString(resource, Charset.defaultCharset());
-            }
-            catch (IOException e) {
-                throw new IllegalStateException("Airlock WAF JWT token is invalid.");
-            }
+          try {
+            return new String(Files.readAllBytes(Paths.get(tokenFile)), Charset.defaultCharset()).trim();
+          } catch (IOException ie) {
+            throw new IllegalStateException("Airlock WAF JWT token is invalid.");
+          }
         }
 
         public URI uri(String... pathSegments) {
