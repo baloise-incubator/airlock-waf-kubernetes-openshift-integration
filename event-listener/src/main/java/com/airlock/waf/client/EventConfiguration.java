@@ -3,13 +3,9 @@ package com.airlock.waf.client;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 import java.io.IOException;
-import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +51,6 @@ public class EventConfiguration {
         requestFactory.setHttpClient(HttpClientBuilder.create()
                 .disableRedirectHandling()
                 .disableCookieManagement()
-                .setSSLContext(sslContext())
                 .setSSLHostnameVerifier(hostnameVerifier())
                 .build());
         RestTemplate restTemplate = new RestTemplate(requestFactory);
@@ -92,34 +87,5 @@ public class EventConfiguration {
     private HostnameVerifier hostnameVerifier() {
 
         return (hostname, session) -> true;
-    }
-
-    private SSLContext sslContext() {
-
-        try {
-            TrustManager[] unquestioningTrustManager = new TrustManager[]{
-                    new X509TrustManager() {
-
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-
-                            return new X509Certificate[0];
-                        }
-
-                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
-
-                        }
-
-                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
-
-                        }
-                    }
-            };
-            final SSLContext context = SSLContext.getInstance("SSL");
-            context.init(null, unquestioningTrustManager, null);
-            return context;
-        }
-        catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
     }
 }
