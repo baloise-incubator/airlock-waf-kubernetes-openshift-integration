@@ -11,12 +11,10 @@ import com.airlock.waf.client.config.rs.client.AirlockWAFClient;
 class DebugTests {
 
   private AirlockWAFClient client;
-  private Context context;
 
   @Autowired
-  public DebugTests(AirlockWAFClient client, Context context) {
+  public DebugTests(AirlockWAFClient client) {
     this.client = client;
-    this.context = context;
   }
 
   @Test
