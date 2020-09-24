@@ -7,11 +7,12 @@
 package com.airlock.waf.client.config.rs.transfer;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @Builder
@@ -24,7 +25,7 @@ public class ConfigFileDto {
 
 	private String createdBy;
 
-	private String createdAt;
+	private Date createdAt;
 
 	private String comment;
 
