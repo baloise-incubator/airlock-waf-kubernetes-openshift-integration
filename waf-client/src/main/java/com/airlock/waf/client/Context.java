@@ -107,7 +107,7 @@ public class Context {
           try {
             return new String(Files.readAllBytes(Paths.get(tokenFile)), Charset.defaultCharset()).trim();
           } catch (IOException ie) {
-            throw new IllegalStateException("Airlock WAF JWT token is invalid.");
+            throw new IllegalStateException("Airlock WAF JWT token is invalid.", ie);
           }
         }
 
