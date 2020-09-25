@@ -35,8 +35,14 @@ public class ConfigurationRestApi extends RestApi {
 
     public ResponseEntity<Void> loadBaseConfig(String cookie) {
         List<ResourceObject<ConfigFileDto>> configuration = getAll(cookie).getBody().getData();
+        System.out.println(configuration);
+        
         String id = configuration.stream()
-                .filter(e -> e.getAttributes().getComment().equals(context().waf().baseConfigComment()))
+                .filter(e -> e.getAttributes()
+                              .getComment()
+                              .equals(
+                                  context().waf()
+                                           .baseConfigComment()))
                 .map(e -> e.getId())
                 .findFirst()
                 .get();

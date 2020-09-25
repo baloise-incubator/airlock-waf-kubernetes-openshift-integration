@@ -1,20 +1,24 @@
 package com.airlock.waf.client;
 
-import com.google.common.io.Resources;
-import io.kubernetes.client.util.Config;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.Charset;
+import com.google.common.io.Resources;
+
+import io.kubernetes.client.util.Config;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Component
 @Getter
@@ -100,13 +104,11 @@ public class Context {
         private String externalLogicalName;
 
         public String token() {
-            try {
-                URL resource = Resources.getResource(tokenFile);
-                return Resources.toString(resource, Charset.defaultCharset());
-            }
-            catch (IOException e) {
-                throw new IllegalStateException("Airlock WAF JWT token is invalid.");
-            }
+          try {
+            return new String(Files.readAllBytes(Paths.get(tokenFile)), Charset.defaultCharset()).trim();
+          } catch (IOException ie) {
+            throw new IllegalStateException("Airlock WAF JWT token is invalid.", ie);
+          }
         }
 
         public URI uri(String... pathSegments) {
