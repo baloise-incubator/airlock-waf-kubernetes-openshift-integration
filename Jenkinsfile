@@ -73,6 +73,14 @@ pipeline {
             }
 
         }
+        stage("Deploy Airlock WAF Operator") {
+                            when {
+                                branch 'master'
+                            }
+                            steps {
+                                containerDeploy(organisation: 'DPLOS2', repositoryName: 'devops-selfservice-non-prod', file: 'waf-eventlistener-test/values.yaml', yamlPatches: ["eventlistener.image.tag": "${GIT_COMMIT}"])
+                            }
+                        }
     }
     post {
                 success {
