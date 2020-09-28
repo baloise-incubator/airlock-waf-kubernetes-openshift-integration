@@ -1,4 +1,4 @@
-package com.airlock.waf.eventlistener;
+package com.airlock.waf;
 
 import static org.springframework.boot.Banner.Mode.OFF;
 
