@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.airlock.waf.Application;
 import com.airlock.waf.client.config.rs.client.AirlockWAFClient;
-import com.airlock.waf.eventlistener.Application;
 
 @SpringBootTest(classes = Application.class)
 class DebugTests {
